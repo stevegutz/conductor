@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Conductor</title>
+
+<style type="text/css">
+body {
+  vertical-align: middle;
+
+  background-color: #FFEFB7;
+
+  /* change family ?*/
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  text-align: center;
+}
+
+button {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  height: 30px;
+  width: 60px;
+
+  background-color: #F8AA96;
+
+  text-align: center;
+  font-size: 14px;
+}
+
+#btn-div {
+  margin: 10px 0 12px 0;
+}
+
+#result-span {
+/*  border-radius: 4px;
+  background-color: #ABCDEF;*/
+}
+</style>
+</head>
+
+<body>
+<span id="result-span"></span>
+<!-- Arpeggios? -->
+<div id="btn-div">
+<!-- Margin better? -->
+<span id="btn-label">Give me a&nbsp;</span>
+<button type="button" id="scale-btn" onclick="scale()">
+scale!
+</button>
+<button type="button" id="chord-btn" onclick="chord()">
+chord!
+</button>
+</div>
+
+<!-- TODO Checkboxes: scales, chords, custom? Save in cookie on click -->
+<!-- TODO show checkboxes on click -->
+
+<script type="text/javascript">
+  var keys = [ 
+    "C", "C&#9839;", "D", "E&#9837;", 
+    "E", "F", "F&#9839;", "G", 
+    "A&#9837;", "A", "B&#9837;", "B",
+  ];
+
+  var scales = [ 
+    "major", "dorian", "lydian", "mixolydian", "minor", "harmonic minor",
+    "altered", // "whole-tone", "diminished", "melodic minor",
+  ];
+
+  // In C (modes of the major scale)
+  var majorPos = [ 2, 3, 5, 7, 8, 12 ];
+  var minorPos = [ 3, 5, 8, 10, 12 ];
+  var scalePositions = {
+    "major" : majorPos,
+    "dorian" : minorPos,
+    "lydian" : majorPos,
+    "mixolydian" : majorPos,
+    "minor" : minorPos,
+    "harmonic minor" : [ 3, 5, 7, 10, 12 ],
+    // "melodic minor" : [],
+    // "altered" : [],
+    // "whole-tone" : [],
+    // "diminished" : [],
+  };
+
+  // Sixths, sevenths, ninths, custom?
+  var scalePatterns = [ "thirds", "triads", "arpeggios" ];
+
+  var chords = [ "maj7", "7", "&ndash;7", "&ndash;7&#9837;5" ];
+
+  function scale() {
+    var res = "";
+
+    var keyIndex = randomIndex(keys);
+    res += keys[keyIndex] + " ";
+
+    var scale = randomElement(scales);
+    res += scale;
+
+    var positions = scalePositions[scale];
+    if (typeof positions !== "undefined") {
+      var position =  randomElement(positions) + keyIndex;
+      if (position > 12)  {
+        position -= 12;
+      }
+      res += " in " + appendSuffix(position) + " position";
+    }
+
+    res += " played in " + randomElement(scalePatterns);
+
+    // TODO Different spans for each element
+    // TODO format results
+    document.getElementById("result-span").innerHTML = res;
+  }
+
+  function chord() {
+    document.getElementById("result-span").innerHTML =
+      randomElement(keys) + randomElement(chords)
+  }
+
+
+  function randomElement(array) {
+    return  array[randomIndex(array)]
+  }
+
+  function randomIndex(array) {
+    return  Math.floor(Math.random() * array.length)
+  }
+
+  // For n in 0..20
+  function appendSuffix(n) {
+    switch(n) {
+    case 1: return n + "st";
+    case 2: return n + "nd";
+    case 3: return  n +"rd";
+    default: return n + "th";
+    }
+  }
+
+  function show(elementId) {
+    document.getElementById(elementId).style.display = ""
+  }
+
+  function hide(elementId) {
+    document.getElementById(elementId).style.display = "display:none";
+  }
+</script>
+</body>
+</html>
