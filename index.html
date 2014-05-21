@@ -27,13 +27,22 @@ button {
   font-size: 14px;
 }
 
+div.check {
+  display: none;
+}
+
+div.scale-input {
+  display: table-cell;
+}
+
 #btn-div {
   margin: 10px 0 12px 0;
 }
 
-#result-span {
-/*  border-radius: 4px;
-  background-color: #ABCDEF;*/
+#scale-check-div {
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
 }
 </style>
 </head>
@@ -42,17 +51,51 @@ button {
 <span id="result-span"></span>
 <!-- Arpeggios? -->
 <div id="btn-div">
-<!-- Margin better? -->
-<span id="btn-label">Give me a&nbsp;</span>
-<button type="button" id="scale-btn" onclick="scale()">
-scale!
-</button>
-<button type="button" id="chord-btn" onclick="chord()">
-chord!
-</button>
+  <!-- Margin better? -->
+  <span id="btn-label">Give me a&nbsp;</span>
+  <button type="button" id="scale-btn" onclick="scale()">
+    scale!
+  </button>
+  <button type="button" id="chord-btn" onclick="chord()">
+    chord!
+  </button>
 </div>
 
-<!-- TODO Checkboxes: scales, chords, custom? Save in cookie on click -->
+<div class="center check" id="scale-check-div">
+  <div style="display: table-row;">
+    <div class="scale-input">
+      <input type="checkbox" name="scale" value="major">major<br>
+      <input type="checkbox" name="scale" value="dorian">dorian<br>
+      <input type="checkbox" name="scale" value="lydian">lydian<br>
+      <input type="checkbox" name="scale" value="mixolydian">mixolydian<br>
+      <input type="checkbox" name="scale" value="minor">minor<br>
+      <input type="checkbox" name="scale" value="harmonic minor">harmonic minor
+    </div>
+    <div class="scale-input">
+      <input type="checkbox" name="pattern" value="thirds">thirds<br>
+      <input type="checkbox" name="pattern" value="triads">triads<br>
+      <input type="checkbox" name="pattern" value="arpeggios">arpeggios<br>
+      <input type="checkbox" name="pattern" value="fourths">fourths<br>
+      <input type="checkbox" name="pattern" value="fourths">fifths<br>
+      <input type="checkbox" name="pattern" value="fourths">sixths<br>
+      <input type="checkbox" name="pattern" value="fourths">sevenths<br>
+      <input type="checkbox" name="pattern" value="fourths">octaves<br>
+      <input type="checkbox" name="pattern" value="fourths">ninths
+    </div>
+  </div>
+</div>
+
+<div class="check" id="chord-check-div">
+  <form action="">
+    <input type="checkbox" name="chord" value="maj7">maj7<br>
+    <input type="checkbox" name="chord" value="7">7<br>
+    <input type="checkbox" name="chord" value="&ndash;7">&ndash;7<br>
+    <input type="checkbox" name="chord" value="&ndash;7&#9837;5">&ndash;7&#9837;5<br>
+  </form>
+</div>
+
+
+<!-- TODO Checkboxes: custom; Save in cookie on click -->
 <!-- TODO show checkboxes on click -->
 
 <script type="text/javascript">
@@ -60,11 +103,6 @@ chord!
     "C", "C&#9839;", "D", "E&#9837;", 
     "E", "F", "F&#9839;", "G", 
     "A&#9837;", "A", "B&#9837;", "B",
-  ];
-
-  var scales = [ 
-    "major", "dorian", "lydian", "mixolydian", "minor", "harmonic minor",
-    "altered", // "whole-tone", "diminished", "melodic minor",
   ];
 
   // In C (modes of the major scale)
@@ -83,12 +121,13 @@ chord!
     // "diminished" : [],
   };
 
-  // Sixths, sevenths, ninths, custom?
-  var scalePatterns = [ "thirds", "triads", "arpeggios" ];
-
-  var chords = [ "maj7", "7", "&ndash;7", "&ndash;7&#9837;5" ];
-
   function scale() {
+    showScaleBoxes();
+    var scales = getCheckedBoxes("scale");
+    if (scales.length == 0) {
+      return;
+    }
+
     var res = "";
 
     var keyIndex = randomIndex(keys);
@@ -106,7 +145,10 @@ chord!
       res += " in " + appendSuffix(position) + " position";
     }
 
-    res += " played in " + randomElement(scalePatterns);
+    var patterns = getCheckedBoxes("pattern");
+    if (patterns.length > 0) {
+      res += " played in " + randomElement(patterns);
+    }
 
     // TODO Different spans for each element
     // TODO format results
@@ -114,10 +156,14 @@ chord!
   }
 
   function chord() {
+    showChordBoxes();
+    var chords = getCheckedBoxes("chord");
+    if (chords.length == 0) {
+      return;
+    }
     document.getElementById("result-span").innerHTML =
       randomElement(keys) + randomElement(chords)
   }
-
 
   function randomElement(array) {
     return  array[randomIndex(array)]
@@ -125,6 +171,18 @@ chord!
 
   function randomIndex(array) {
     return  Math.floor(Math.random() * array.length)
+  }
+
+  function getCheckedBoxes(name) {
+    var boxes = document.getElementsByName(name);
+    var checked = [];
+    for (var i = 0; i < boxes.length; i++) {
+      var b = boxes[i];
+      if (b.checked) {
+        checked.push(b.value);
+      }
+    }
+    return checked;
   }
 
   // For n in 0..20
@@ -137,12 +195,14 @@ chord!
     }
   }
 
-  function show(elementId) {
-    document.getElementById(elementId).style.display = ""
+  function showScaleBoxes() {
+    document.getElementById("chord-check-div").style.display = "none";
+    document.getElementById("scale-check-div").style.display = "table";
   }
 
-  function hide(elementId) {
-    document.getElementById(elementId).style.display = "display:none";
+  function showChordBoxes() {
+    document.getElementById("scale-check-div").style.display = "none";
+    document.getElementById("chord-check-div").style.display = "inline";
   }
 </script>
 </body>
