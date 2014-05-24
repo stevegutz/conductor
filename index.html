@@ -67,11 +67,35 @@ div.check {
 }
 
 /* TODO Chord checkboxes*/
+
+a.all:link, a.none:link, a.all:visited, a.none:visited {
+  color: #708090;
+  text-decoration: none;
+}
+
+a.all:hover{
+  color: #03C03C;
+  text-decoration: none;
+}
+
+a.none:hover {
+  color: #C23B22;
+  text-decoration: none;
+}
+
+a.all:active, a.none:active {
+  color: #8C92AC;
+  text-decoration: none;
+}
+
+div.all-or-none {
+  margin-left: 28px;
+  margin-right: 28px;
+}
 </style>
 </head>
 
 <body>
-
 <header>
     <h2>Conductor</h2>
 </header>
@@ -114,6 +138,11 @@ div.check {
       <span class="scale-name">harmonic minor</span>
       <input type="checkbox" name="scale" value="harmonic minor" checked="true">
     </div>
+    <div class="scale-option all-or-none">
+      <a class="all" title="all" href="#" onclick="checkAll('scale');return false;">all</a>
+      |
+      <a class="none" title="none" href="#" onclick="checkNone('scale');return false;">none</a>
+    </div>
   </div>
   <div class="scale-col" id="scale-pattern-div">
     <div class="pattern-option">
@@ -151,6 +180,11 @@ div.check {
     <div class="pattern-option">
       <input type="checkbox" name="pattern" value="ninths" checked="true">
       <span class="pattern-name">ninths</span>
+    </div>
+    <div class="pattern-option all-or-none">
+      <a class="all" title="all" href="#" onclick="checkAll('pattern');return false;">all</a>
+      |
+      <a class="none" title="none" href="#" onclick="checkNone('pattern');return false;">none</a>
     </div>
   </div>
 </div>
@@ -249,6 +283,20 @@ div.check {
       }
     }
     return checked;
+  }
+
+  function checkAll(name) {
+    setChecked(document.getElementsByName(name), true);
+  }
+
+  function checkNone(name) {
+    setChecked(document.getElementsByName(name), false);
+  }
+
+  function setChecked(boxes, state) {
+    for (var i = 0; i < boxes.length; i++) {
+      boxes[i].checked = state;
+    }
   }
 
   // For n in 0..20
