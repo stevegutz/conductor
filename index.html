@@ -27,31 +27,57 @@ button {
   font-size: 14px;
 }
 
-div.check {
-  display: none;
-}
-
-div.scale-input {
-  display: table-cell;
-}
-
 #btn-div {
   margin: 10px 0 12px 0;
 }
 
+div.check {
+  display: none;
+}
+
+/* Scale check boxes*/
 #scale-check-div {
   margin-left: auto;
   margin-right: auto;
-  width: 40%;
+  width: 300px;
 }
+
+.scale-col {
+  width: 150px;
+}
+
+#scale-type-div {
+ float: left;
+}
+
+#scale-pattern-div {
+ float: right;
+}
+
+.scale-option {
+  clear: both;
+  float: right;
+  margin-right: 6px;
+}
+
+.pattern-option {
+  clear: both;
+  float: left;
+  margin-left: 6px;
+}
+
+/* TODO Chord checkboxes*/
 </style>
 </head>
 
 <body>
-<span id="result-span"></span>
-<!-- Arpeggios? -->
+
+<header>
+    <h2>Conductor</h2>
+</header>
+
+<span id="result-span">&nbsp;</span>
 <div id="btn-div">
-  <!-- Margin better? -->
   <span id="btn-label">Give me a&nbsp;</span>
   <button type="button" id="scale-btn" onclick="scale()">
     scale!
@@ -62,41 +88,81 @@ div.scale-input {
 </div>
 
 <div class="center check" id="scale-check-div">
-  <div style="display: table-row;">
-    <div class="scale-input">
-      <input type="checkbox" name="scale" value="major">major<br>
-      <input type="checkbox" name="scale" value="dorian">dorian<br>
-      <input type="checkbox" name="scale" value="lydian">lydian<br>
-      <input type="checkbox" name="scale" value="mixolydian">mixolydian<br>
-      <input type="checkbox" name="scale" value="minor">minor<br>
-      <input type="checkbox" name="scale" value="harmonic minor">harmonic minor
+  <!-- TODO this stuff would be really nice in a loop  -->
+  <div class="scale-col" id="scale-type-div">
+    <div class="scale-option">
+      <span class="scale-name">major</span>
+      <input type="checkbox" name="scale" value="major" checked="true">
     </div>
-    <div class="scale-input">
-      <input type="checkbox" name="pattern" value="thirds">thirds<br>
-      <input type="checkbox" name="pattern" value="triads">triads<br>
-      <input type="checkbox" name="pattern" value="arpeggios">arpeggios<br>
-      <input type="checkbox" name="pattern" value="fourths">fourths<br>
-      <input type="checkbox" name="pattern" value="fourths">fifths<br>
-      <input type="checkbox" name="pattern" value="fourths">sixths<br>
-      <input type="checkbox" name="pattern" value="fourths">sevenths<br>
-      <input type="checkbox" name="pattern" value="fourths">octaves<br>
-      <input type="checkbox" name="pattern" value="fourths">ninths
+    <div class="scale-option">
+      <span class="scale-name">dorian</span>
+      <input type="checkbox" name="scale" value="dorian" checked="true">
+    </div>
+    <div class="scale-option">
+      <span class="scale-name">lydian</span>
+      <input type="checkbox" name="scale" value="lydian" checked="true">
+    </div>
+    <div class="scale-option">
+      <span class="scale-name">mixolydian</span>
+      <input type="checkbox" name="scale" value="mixolydian" checked="true">
+    </div>
+    <div class="scale-option">
+      <span class="scale-name">minor</span>
+      <input type="checkbox" name="scale" value="minor" checked="true">
+    </div>
+    <div class="scale-option">
+      <span class="scale-name">harmonic minor</span>
+      <input type="checkbox" name="scale" value="harmonic minor" checked="true">
+    </div>
+  </div>
+  <div class="scale-col" id="scale-pattern-div">
+    <div class="pattern-option">
+      <input type="checkbox" name="pattern" value="thirds" checked="true">
+      <span class="pattern-name">thirds</span>
+    </div>
+    <div class="pattern-option">
+      <input type="checkbox" name="pattern" value="triads" checked="true">
+      <span class="pattern-name">triads</span>
+    </div>
+    <div class="pattern-option">
+      <input type="checkbox" name="pattern" value="arpeggios" checked="true">
+      <span class="pattern-name">arpeggios</span>
+    </div>
+    <div class="pattern-option">
+      <input type="checkbox" name="pattern" value="fourths" checked="true">
+      <span class="pattern-name">fourths</span>
+    </div>
+    <div class="pattern-option">
+      <input type="checkbox" name="pattern" value="fifths" checked="true">
+      <span class="pattern-name">fifths</span>
+    </div>
+    <div class="pattern-option">
+      <input type="checkbox" name="pattern" value="sixths" checked="true">
+      <span class="pattern-name">sixths</span>
+    </div>
+    <div class="pattern-option">
+      <input type="checkbox" name="pattern" value="sevenths" checked="true">
+      <span class="pattern-name">sevenths</span>
+    </div>
+    <div class="pattern-option">
+      <input type="checkbox" name="pattern" value="octaves" checked="true">
+      <span class="pattern-name">octaves</span>
+    </div>
+    <div class="pattern-option">
+      <input type="checkbox" name="pattern" value="ninths" checked="true">
+      <span class="pattern-name">ninths</span>
     </div>
   </div>
 </div>
 
 <div class="check" id="chord-check-div">
-  <form action="">
-    <input type="checkbox" name="chord" value="maj7">maj7<br>
-    <input type="checkbox" name="chord" value="7">7<br>
-    <input type="checkbox" name="chord" value="&ndash;7">&ndash;7<br>
-    <input type="checkbox" name="chord" value="&ndash;7&#9837;5">&ndash;7&#9837;5<br>
-  </form>
+  <input type="checkbox" name="chord" value="maj7" checked="true">maj7<br>
+  <input type="checkbox" name="chord" value="7">7<br>
+  <input type="checkbox" name="chord" value="&ndash;7">&ndash;7<br>
+  <input type="checkbox" name="chord" value="&ndash;7&#9837;5">&ndash;7&#9837;5<br>
 </div>
 
-
 <!-- TODO Checkboxes: custom; Save in cookie on click -->
-<!-- TODO show checkboxes on click -->
 
 <script type="text/javascript">
   var keys = [ 
