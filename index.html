@@ -31,6 +31,24 @@ button {
   margin: 10px 0 12px 0;
 }
 
+div.result {
+  height: 30px;
+  width: 450px;
+  display: none;
+}
+
+div.result-section {
+  display: inline;
+}
+
+.highlighted {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 4px;
+
+  background-color: #ABCDEF;
+}
+
 div.check {
   display: none;
 }
@@ -100,7 +118,23 @@ div.all-or-none {
     <h2>Conductor</h2>
 </header>
 
-<span id="result-span">&nbsp;</span>
+<div class="result" id="scale-result-div">
+  <span class="highlighted" id="scale-name"></span>
+  <div class="result-section" id="position-div">
+    &nbsp;in&nbsp;
+    <span class="highlighted" id="scale-position"></span>
+    &nbsp;position
+  </div>
+  <div class="result-section" id="played-in">
+    &nbsp;played in&nbsp;
+    <span class="highlighted" id="scale-pattern"></span>
+  </div>
+</div>
+
+<div class="result" id="chord-result-div">
+  <span class="highlighted" id="chord-name"></span>
+</div>
+
 <div id="btn-div">
   <button type="button" id="scale-btn" onclick="scale()">
     scale!
@@ -227,13 +261,10 @@ div.all-or-none {
       return;
     }
 
-    var res = "";
-
     var keyIndex = randomIndex(keys);
-    res += keys[keyIndex] + " ";
-
     var scale = randomElement(scales);
-    res += scale;
+
+    document.getElementById("scale-name").innerHTML = keys[keyIndex] + " " + scale;
 
     var positions = scalePositions[scale];
     if (typeof positions !== "undefined") {
@@ -241,17 +272,13 @@ div.all-or-none {
       if (position > 12)  {
         position -= 12;
       }
-      res += " in " + appendSuffix(position) + " position";
+      document.getElementById("scale-position").innerHTML = appendSuffix(position);
     }
 
     var patterns = getCheckedBoxes("pattern");
     if (patterns.length > 0) {
-      res += " played in " + randomElement(patterns);
+      document.getElementById("scale-pattern").innerHTML = randomElement(patterns);
     }
-
-    // TODO Different spans for each element
-    // TODO format results
-    document.getElementById("result-span").innerHTML = res;
   }
 
   function chord() {
@@ -260,7 +287,7 @@ div.all-or-none {
     if (chords.length == 0) {
       return;
     }
-    document.getElementById("result-span").innerHTML =
+    document.getElementById("chord-name").innerHTML =
       randomElement(keys) + randomElement(chords)
   }
 
@@ -309,12 +336,16 @@ div.all-or-none {
   }
 
   function showScaleBoxes() {
+    document.getElementById("chord-result-div").style.display = "none";
     document.getElementById("chord-check-div").style.display = "none";
+    document.getElementById("scale-result-div").style.display = "block";
     document.getElementById("scale-check-div").style.display = "table";
   }
 
   function showChordBoxes() {
+    document.getElementById("scale-result-div").style.display = "none";
     document.getElementById("scale-check-div").style.display = "none";
+    document.getElementById("chord-result-div").style.display = "block";
     document.getElementById("chord-check-div").style.display = "inline";
   }
 </script>
