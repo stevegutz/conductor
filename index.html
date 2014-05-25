@@ -40,7 +40,6 @@ button {
 }
 
 div.result {
-  max-height: 60px;
   margin-top: -4px;
   display: none;
 }
@@ -115,6 +114,13 @@ div.all-or-none {
   margin-right: 28px;
 }
 
+.music-symbol {
+  font-family: Arial Unicode MS, Lucida Sans Unicode;
+  margin-top: -3px;
+  vertical-align: text-top;
+  display: inline-block;
+}
+
 </style>
 </head>
 
@@ -175,6 +181,28 @@ div.all-or-none {
     <div class="scale-option">
       <span class="scale-name">harmonic minor</span>
       <input type="checkbox" name="scale" value="harmonic minor" checked="true">
+    </div>
+    <div class="scale-option">
+      <span class="scale-name">melodic minor</span>
+      <input type="checkbox" name="scale" value="melodic minor" checked="true">
+    </div>
+    <div class="scale-option">
+      <span class="scale-name">whole tone</span>
+      <input type="checkbox" name="scale" value="whole tone" checked="true">
+    </div>
+    <div class="scale-option">
+      <span class="scale-name">altered</span>
+      <input type="checkbox" name="scale" value="altered" checked="true">
+    </div>
+    <div class="scale-option">
+      <span class="scale-name">
+        mixolydian<span class="musical-symbol">&#9839;</span>11
+      </span>
+      <input type="checkbox" name="scale" value="mixolydian #11" checked="true">
+    </div>
+    <div class="scale-option">
+      <span class="scale-name">diminished</span>
+      <input type="checkbox" name="scale" value="diminished" checked="true">
     </div>
     <div class="scale-option all-or-none">
       <a class="all" title="all" href="#" onclick="checkAll('scale');return false;">all</a>
@@ -237,12 +265,24 @@ div.all-or-none {
     <span class="chord-name">7</span>
   </div>
   <div class="chord-option">
-    <input type="checkbox" name="chord" value="&ndash;7" checked="true">
-    <span class="chord-name">&ndash;7</span>
+    <input type="checkbox" name="chord" value="-7" checked="true">
+    <span class="chord-name">
+      <span class="music-symbol">&ndash;</span>7
+    </span>
   </div>
   <div class="chord-option">
-    <input type="checkbox" name="chord" value="&ndash;7&#9837;5" checked="true">
-    <span class="chord-name">&ndash;7&#9837;5</span>
+    <input type="checkbox" name="chord" value="-7b5" checked="true">
+    <span class="chord-name">
+      <span class="music-symbol">&ndash;</span>7<span class="music-symbol">&#9837;</span>5
+    </span>
+  </div>
+  <div class="chord-option">
+    <input type="checkbox" name="chord" value="dim7" checked="true">
+    <span class="chord-name">&deg;7</span>
+  </div>
+  <div class="chord-option">
+    <input type="checkbox" name="chord" value="alt" checked="true">
+    <span class="chord-name">alt.</span>
   </div>
   <div class="chord-option all-or-none">
     <a class="all" title="all" href="#" onclick="checkAll('chord');return false;">all</a>
@@ -254,10 +294,13 @@ div.all-or-none {
 <!-- TODO Checkboxes: custom; Save in cookie on click -->
 
 <script type="text/javascript">
+var flat = "<span class='music-symbol'>&#9837;</span>";
+var sharp = "<span class='music-symbol'>&#9839;</span>";
+
   var keys = [ 
-    "C", "C&#9839;", "D", "E&#9837;", 
-    "E", "F", "F&#9839;", "G", 
-    "A&#9837;", "A", "B&#9837;", "B",
+    "C", "C" + sharp, "D", "E" + flat, 
+    "E", "F", "F" + sharp, "G", 
+    "A" + flat, "A", "B" + flat, "B",
   ];
 
   // In C (modes of the major scale)
@@ -289,7 +332,7 @@ div.all-or-none {
     document.getElementById("scale-name").innerHTML = keys[keyIndex] + " " + scale;
 
     var positions = scalePositions[scale];
-    if (typeof positions !== "undefined") {
+    if (typeof positions !== "undefined" && positions.length > 0) {
       var position =  randomElement(positions) + keyIndex;
       if (position > 12)  {
         position -= 12;
@@ -309,6 +352,18 @@ div.all-or-none {
     }
   }
 
+  var min = "<span class='music-symbol'>&ndash;</span>";
+  var dim = "&deg;";
+
+  var chordDisplayValues = {
+    "maj7" : "maj7",
+    "7" : "7",
+    "-7" :  min +"7",
+    "-7b5" : min + "7" + flat + "5",
+    "dim7" : dim + "7",
+    "alt" : "alt.",
+  };
+
   function chord() {
     showChordBoxes();
     var chords = getCheckedBoxes("chord");
@@ -316,7 +371,7 @@ div.all-or-none {
       return;
     }
     document.getElementById("chord-name").innerHTML =
-      randomElement(keys) + randomElement(chords)
+      randomElement(keys) + chordDisplayValues[randomElement(chords)];
   }
 
   function randomElement(array) {
