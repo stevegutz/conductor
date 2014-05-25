@@ -3,13 +3,16 @@
 <head>
 <title>Conductor</title>
 
+<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, minimal-ui">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
 <style type="text/css">
 body {
   vertical-align: middle;
 
   background-color: #FFEFB7;
 
-  /* change family ?*/
   font-family: Helvetica, Arial, sans-serif;
   font-size: 16px;
   text-align: center;
@@ -28,12 +31,12 @@ button {
 }
 
 #btn-div {
-  margin: 10px 0 12px 0;
+  margin: 14px 0 12px 0;
 }
 
 div.result {
-  height: 30px;
-  width: 450px;
+  max-height: 60px;
+  margin-top: -4px;
   display: none;
 }
 
@@ -47,6 +50,11 @@ div.result-section {
   padding: 4px;
 
   background-color: #ABCDEF;
+}
+
+#played-in {
+  margin-top: 14px;
+  display: block;
 }
 
 div.check {
@@ -102,7 +110,7 @@ a.none:hover {
 }
 
 a.all:active, a.none:active {
-  color: #8C92AC;
+  color: #708090;
   text-decoration: none;
 }
 
@@ -126,7 +134,7 @@ div.all-or-none {
     &nbsp;position
   </div>
   <div class="result-section" id="played-in">
-    &nbsp;played in&nbsp;
+    played in&nbsp;
     <span class="highlighted" id="scale-pattern"></span>
   </div>
 </div>
@@ -273,11 +281,17 @@ div.all-or-none {
         position -= 12;
       }
       document.getElementById("scale-position").innerHTML = appendSuffix(position);
+      document.getElementById("position-div").style.display = "inline";
+    } else {
+      document.getElementById("position-div").style.display = "none";
     }
 
     var patterns = getCheckedBoxes("pattern");
     if (patterns.length > 0) {
       document.getElementById("scale-pattern").innerHTML = randomElement(patterns);
+      document.getElementById("played-in").style.display = "block";
+    } else {
+      document.getElementById("played-in").style.display = "none";
     }
   }
 
