@@ -61,15 +61,12 @@ div.result-section {
 
 div.check {
   display: none;
-}
-
-/* Scale check boxes*/
-#scale-check-div {
   margin-left: auto;
   margin-right: auto;
   width: 300px;
 }
 
+/* Scale check boxes*/
 .scale-col {
   width: 150px;
 }
@@ -94,7 +91,16 @@ div.check {
   margin-left: 6px;
 }
 
-/* TODO Chord checkboxes*/
+/* Chord checkboxes */
+.chord-option {
+  clear: both;
+  float: left;
+  margin-left: 120px;
+}
+
+.chord-option.all-or-none {
+    margin-left: 122px;
+}
 
 a.all, a.none {
   color: #708090;
@@ -105,6 +111,7 @@ div.all-or-none {
   margin-left: 28px;
   margin-right: 28px;
 }
+
 </style>
 </head>
 
@@ -218,10 +225,27 @@ div.all-or-none {
 </div>
 
 <div class="check" id="chord-check-div">
-  <input type="checkbox" name="chord" value="maj7" checked="true">maj7<br>
-  <input type="checkbox" name="chord" value="7">7<br>
-  <input type="checkbox" name="chord" value="&ndash;7">&ndash;7<br>
-  <input type="checkbox" name="chord" value="&ndash;7&#9837;5">&ndash;7&#9837;5<br>
+  <div class="chord-option">
+    <input type="checkbox" name="chord" value="maj7" checked="true">
+    <span class="chord-name">maj7</span>
+  </div>
+  <div class="chord-option">
+    <input type="checkbox" name="chord" value="7" checked="true">
+    <span class="chord-name">7</span>
+  </div>
+  <div class="chord-option">
+    <input type="checkbox" name="chord" value="&ndash;7" checked="true">
+    <span class="chord-name">&ndash;7</span>
+  </div>
+  <div class="chord-option">
+    <input type="checkbox" name="chord" value="&ndash;7&#9837;5" checked="true">
+    <span class="chord-name">&ndash;7&#9837;5</span>
+  </div>
+  <div class="chord-option all-or-none">
+    <a class="all" title="all" href="#" onclick="checkAll('chord');return false;">all</a>
+    |
+    <a class="none" title="none" href="#" onclick="checkNone('chord');return false;">none</a>
+  </div>
 </div>
 
 <!-- TODO Checkboxes: custom; Save in cookie on click -->
@@ -347,7 +371,7 @@ div.all-or-none {
     document.getElementById("scale-result-div").style.display = "none";
     document.getElementById("scale-check-div").style.display = "none";
     document.getElementById("chord-result-div").style.display = "block";
-    document.getElementById("chord-check-div").style.display = "inline";
+    document.getElementById("chord-check-div").style.display = "table";
   }
 </script>
 </body>
